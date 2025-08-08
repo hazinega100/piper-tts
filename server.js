@@ -22,8 +22,11 @@ const VOICES = {
   denis: 'ru_RU-denis-medium.onnx'
 };
 
-const PIPER = './venv/bin/piper'; // если запускаешь локально
-// const PIPER = 'piper';            // если в Docker (глобально установлен)
+// Определяем, где запущен код
+const PIPER = process.cwd().includes('app') ? 'piper' : './venv/bin/piper';
+
+// Или через переменную окружения
+// const PIPER = process.env.PIPER_CMD || 'piper';
 
 const OUTPUT_FILE = 'output.wav';
 const OUTPUT_PATH = join(__dirname, OUTPUT_FILE);
@@ -124,7 +127,7 @@ app.get('/output.wav', (req, res) => {
   });
 });
 
-const PORT = 3005;
+const PORT = 3000;
 app.listen(PORT, () => {
   console.log(`🌐 Сервер запущен: http://localhost:${PORT}`);
   console.log(`🔊 Доступные голоса: ${Object.keys(VOICES).join(', ')}`);
