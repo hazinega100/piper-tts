@@ -37,3 +37,5 @@
 ```bash
 git clone https://github.com/hazinega100/piper-tts.git
 cd piper-tts
+docker build -t piper-tts .
+docker run -p 3005:3000 piper-tts
