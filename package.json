@@ -1,0 +1,14 @@
+{
+  "name": "piper-tts",
+  "version": "1.0.0",
+  "scripts": {
+    "speak": "node speak.js"
+  },
+  "author": "EgaHazin",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "dotenv": "^17.2.1",
+    "express": "^5.1.0"
+  }
+}

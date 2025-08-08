@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Piper TTS</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 20px;
+      text-align: center;
+    }
+    textarea {
+      width: 100%;
+      height: 100px;
+      margin: 10px 0;
+      padding: 10px;
+      font-size: 16px;
+    }
+    .controls {
+      margin: 15px 0;
+    }
+    select, button {
+      font-size: 16px;
+      padding: 8px 12px;
+      margin: 0 5px;
+    }
+    audio {
+      margin: 20px 0;
+    }
+  </style>
+</head>
+<body>
+  <h1>🗣️ Локальный TTS (Piper)</h1>
+  <p>Введите текст и выберите голос</p>
+
+  <textarea id="text" placeholder="Привет, это тест!">Привет, это тест!</textarea>
+
+  <div class="controls">
+    <select id="voice">
+      <option value="irina">Irina (женский)</option>
+      <option value="denis">Denis (мужской)</option>
+    </select>
+    <button onclick="synthesize()">Озвучить</button>
+    <button onclick="document.getElementById('audio').play()">Прослушать</button>
+  </div>
+
+  <audio id="audio" controls></audio>
+
+  <script>
+    async function synthesize() {
+      const text = document.getElementById("text").value;
+      const voice = document.getElementById("voice").value;
+      const audio = document.getElementById("audio");
+
+      if (!text.trim()) {
+        alert("Введите текст!");
+        return;
+      }
+
+      try {
+        const res = await fetch("/speak", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ text, voice }),
+        });
+
+        if (!res.ok) throw new Error("Ошибка генерации");
+
+        audio.src = "/output.wav?t=" + Date.now();
+        audio.load();
+      } catch (err) {
+        alert("Ошибка: " + err.message);
+      }
+    }
+  </script>
+</body>
+</html>
